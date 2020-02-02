@@ -14,6 +14,7 @@ set(VideoOverlying_CPP_SOURCES
     ${VideoOverlying_Sources}/CPPSource/Writer.cpp
     ${VideoOverlying_Sources}/CPPSource/Tracker.cpp
     ${VideoOverlying_Sources}/CPPSource/BackgroundSubtractor.cpp
+    ${VideoOverlying_Sources}/CPPSource/Overlayer.cpp
     ${VideoOverlying_Sources}/CPPSource/main.cpp
 )
 

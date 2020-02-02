@@ -12,7 +12,8 @@
 class Tracker {
 public:
     Tracker(const Reader& reader, const std::string& trackingMethod);
-    std::vector<cv::Mat>& getMasks() {return m_masks;}
+    ~Tracker();
+    const std::vector<cv::Mat>& getMasks() {return m_masks;}
     
 private:
     void createTrackerByName(const std::string& trackerType);

@@ -15,7 +15,6 @@ Writer::Writer(const std::string& outputFileName, const std::string& codec, doub
 
 void Writer::writeToFile(const std::vector<cv::Mat>& videoFrames) {
     cv::VideoWriter outputVideo(m_outputFileName, m_fourcc, m_fps, m_size, true);
-    std::cout << "writeToFile" << std::endl;
     
     for(size_t i = 0; i < videoFrames.size(); ++i) {
         outputVideo << videoFrames[i];

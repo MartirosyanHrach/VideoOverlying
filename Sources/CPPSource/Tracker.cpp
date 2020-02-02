@@ -6,6 +6,8 @@ Tracker::Tracker(const Reader& reader, const std::string& trackingMethod) {
     multiTracker(reader.getVideoFrames());
 }
 
+Tracker::~Tracker() { m_masks.clear(); }
+
 void Tracker::createTrackerByName(const std::string& trackerType) {
     if(trackerType == "BOOSTING"){
         m_tracker = cv::TrackerBoosting::create();
@@ -69,14 +71,13 @@ void Tracker::multiTracker(const std::vector<cv::Mat>& inputVideo) {
     for(size_t i = 0; i < inputVideo.size(); ++i) {
         frame = inputVideo[i];
         multiTracker->update(frame);
-        std::cout << i << std::endl;
         cv::Mat mask = cv::Mat::zeros(frame.rows, frame.cols, CV_8U);
         for (size_t i = 0; i < multiTracker->getObjects().size(); ++i) {
             cv::rectangle(frame, multiTracker->getObjects()[i], colors[i], 2, 1);
             cv::grabCut(frame, mask, multiTracker->getObjects()[i], cv::Mat(), cv::Mat(), 5, cv::GC_INIT_WITH_RECT);
 
             cv::compare(mask, cv::GC_PR_FGD, mask,cv::CMP_EQ);
-            m_masks.push_back(std::move(mask));
+            m_masks.emplace_back(mask);
         }
     }
 
