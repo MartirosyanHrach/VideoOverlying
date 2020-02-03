@@ -1,3 +1,3 @@
-cd build && sudo make -j4
+cd BuildDir && sudo make -j4
 
 ./VideoOverlying "$@"

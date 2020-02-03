@@ -58,8 +58,10 @@ also builds my video overyling project and will generate VideoOverlying object f
 ### Test ###
 After doing the steps I mentioned above, simply run `./run.sh` bash script with approrpriate video paths
 
-` ./runs.sh <output video direcory>/ <background video path> <moving objects video paths>(As much as you want)`.
+` ./run.sh <output video direcory>/ <background video path> <moving objects video paths>(As much as you want)`.
 
 In my case:` /run.sh /home/hrach/Documents/Results/ /home/hrach/Downloads/Results/background.mp4 /home/hrach/Downloads/Results/moving.mp4`.
+
+Or you can use BuildDir/VideoOverlying obj file, with appropriate video file arguments.(Same as ./run.sh)
 
 I'm really sorry for meaningless video example(Anyway i think it is not too bad.) :).

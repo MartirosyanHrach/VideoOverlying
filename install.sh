@@ -5,8 +5,7 @@ git clone https://github.com/opencv/opencv.git
 git clone https://github.com/opencv/opencv_contrib.git
 
 cwd=`pwd`
-mkdir project
-cd opencv && mkdir build
+cd opencv && mkdir BuildDir
 
 cmake 	-S$cwd/opencv \
         -B$cwd/opencv/BuildDir\
@@ -14,21 +13,21 @@ cmake 	-S$cwd/opencv \
         -DBUILD_SHARED_LIBS=OFF \
         -DOPENCV_EXTRA_MODULES_PATH=$cwd/opencv_contrib/modules \
         -DBUILD_EXAMPLES=OFF \
-        -DCMAKE_INSTALL_PREFIX=$cwd/project/OpenCVBinaries \
+        -DCMAKE_INSTALL_PREFIX=$cwd/OpenCVBinaries \
 
-cd build 
+cd BuildDir 
 make -j4 install
+cd ../../
 
-cd ../../project
+sudo rm -rf opencv
+sudo rm -rf opencv_contrib
 
-https://github.com/MartirosyanHrach/VideoOverlying.git
+cwd=`pwd`
 
-cwd=`cwd`
-cd VideoOverlying && mkdir build
-
-cmake 	-S$cwd/videoOverlayer \
-        -B$cwd/videoOverlayer/BuildDir\
+mkdir BuildDir
+cmake 	-S$cwd \
+        -B$cwd/BuildDir\
         -DCMAKE_BUILD_TYPE=Debug \
 
-cd build 
-make -j4 install
+cd $cwd/BuildDir
+sudo make -j4
