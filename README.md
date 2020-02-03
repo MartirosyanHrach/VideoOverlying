@@ -29,12 +29,14 @@ Run the command
     cmake -S <path-to-source> -B <path-to-build>
 
 Optional parameters:
-`
-        -DCMAKE_BUILD_TYPE=<build type> \
-        -DBUILD_SHARED_LIBS=<library built type(ON/OFF)> \
-        -DOPENCV_EXTRA_MODULES_PATH=<path to extra modules(The second repository which we have cloned above)> \
-        -DCMAKE_INSTALL_PREFIX=<directory, where built binaries has to be installed> \
-`
+`        -DCMAKE_BUILD_TYPE=<build type> \ `
+
+`        -DBUILD_SHARED_LIBS=<library built type(ON/OFF)> \ `
+
+`        -DOPENCV_EXTRA_MODULES_PATH=<path to extra modules(The second repository which we have cloned above)> \ `
+
+`        -DCMAKE_INSTALL_PREFIX=<directory, where built binaries has to be installed> \ `
+
 
 ### Using CMake GUI:
 
@@ -55,6 +57,9 @@ also builds my video overyling project and will generate VideoOverlying object f
 
 ### Test ###
 After doing the steps I mentioned above, simply run `./run.sh` bash script with approrpriate video paths
-` ./runs.sh <output video direcory>/ <background video path> <moving objects video paths>(As much as you want).`
-In my case:`./run.sh /home/hrach/Documents/Results/ /home/hrach/Downloads/Results/background.mp4 /home/hrach/Downloads/Results/moving.mp4`
+
+` ./runs.sh <output video direcory>/ <background video path> <moving objects video paths>(As much as you want)`.
+
+In my case:` /run.sh /home/hrach/Documents/Results/ /home/hrach/Downloads/Results/background.mp4 /home/hrach/Downloads/Results/moving.mp4`.
+
 I'm really sorry for meaningless video example(Anyway i think it is not too bad.) :).
