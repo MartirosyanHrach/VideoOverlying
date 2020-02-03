@@ -1,26 +1,35 @@
 #include "BackgroundSubtractor.hpp"
 
-BackgroundSubtractor::BackgroundSubtractor(const Reader& reader, const std::string& method) : 
-    m_subtractionMethod(method) {
-        if (m_subtractionMethod == "knn") {
-            m_subtractionModel = cv::createBackgroundSubtractorKNN();
+BackgroundSubtractor::BackgroundSubtractor(Algorithms algorithm_type) {
+        if (algorithm_type == Algorithms::knn) {
+            m_subtraction_model = cv::createBackgroundSubtractorKNN();
         }
-        else if (m_subtractionMethod == "mog2") {
-            m_subtractionModel = cv::createBackgroundSubtractorMOG2();
+        else if (algorithm_type == Algorithms::mog2) {
+            m_subtraction_model = cv::createBackgroundSubtractorMOG2();
         }
         else {
-            throw MyException(m_subtractionMethod, "is unsupported subtraction method.");
+            throw MyException("Unsupported background subtraction method.");
         }
-
-        /* Here we pass already frame by frame stored Mat object to the main background subtractor function.*/
-        getBackgroundFromInputVideo(reader.getVideoFrames());
 }
 
-void BackgroundSubtractor::getBackgroundFromInputVideo(const std::vector<cv::Mat>& video) {
-    cv::Mat background;
-    for(size_t i = 0; i < video.size(); ++i) {
-        m_subtractionModel->apply(video[i], background);
-        m_subtractionModel->getBackgroundImage(background);
-        m_backgroundContainer.emplace_back(std::move(background));
+Video BackgroundSubtractor::subtruct_background(const Video& input_video) {
+    if(input_video.m_frames.empty()) {
+        throw MyException("Input video is empty.");
     }
+        
+    Video background_video(
+        input_video.m_width,
+        input_video.m_height,
+        input_video.m_frame_count,
+        input_video.m_fourcc,
+        input_video.m_frame_rate
+    );
+
+    cv::Mat background;
+    for(int i = 0; i < background_video.m_frame_count; ++i) {
+        m_subtraction_model->apply(input_video.m_frames[i], background);
+        m_subtraction_model->getBackgroundImage(background);
+        background_video.m_frames[i] = std::move(background);
+    }
+    return background_video;
 }

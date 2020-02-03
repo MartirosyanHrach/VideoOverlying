@@ -8,34 +8,24 @@
 #include "BackgroundSubtractor.hpp"
 #include "MyException.hpp"
 
+/**
+ * @brief   This class implements only one static function,
+ *          which performs overlaying process.
+ *          Expects 3 arguments:
+ *              1. Background subtractted video(with already removed moving objects from background).
+ *              2. Video of moving objects. 
+ *              3. Mask of moving object, which created by class Tracker.
+ */
 class Overlayer {
 public:
-    Overlayer(const std::string& backgroundVideoName, const std::string& movingObjectsVideoName, const std::string& outputFileName, 
-        const std::string& trackingAlgorithm = "MEDIANFLOW", const std::string& backgroundSubtractionAlgorithm = "mog2");
-    
-    /*************
-     *  SETTERS  *
-     *************/    
-    void setOutputVideCodecNumber(int codecNumber);
-    void setOutputWidth(int width);
-    void setOutputHeight(int height);
-    void setOutputFrameRate(double frameRate);
-    void setTrackingAlgorithm(const std::string& trackingAlgorithm);
-    void setBackgroundSubtractionAlgorithm(const std::string& backgroundSubtractionAlgorithm);
-
-    void writeToFile();
-private:
-    void overlayFrameByFrame(const Reader& movingVideo, const BackgroundSubtractor& subtractedBackground);
-
-private:
-    int m_codecNumber;
-    int m_width;
-    int m_height;
-    double m_frameRate;
-    std::string m_trackingAlgorithm;
-    std::string m_backgroundSubtractionAlgorithm;
-    std::string m_outputFileName;
-    std::vector<cv::Mat> m_outputVideFrames;
+    /**
+     *  @brief      Selects only largest components in the binary image
+     *  @param[in]  subtracted_background   - subtracted background video 
+     *  @param[in]  moving_objects_video    - moving objects video
+     *  @param[in]  moving_objects_mask     - moving objects mask video
+     *  @param[out] Video                   - Destination video already overlayed
+     **/
+    static Video overlay_videos(const Video& subtracted_background, const Video& moving_objects_video, const Video& moving_objects_mask);
 };
 
 #endif //OVERLAYER

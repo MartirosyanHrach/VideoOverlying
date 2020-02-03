@@ -1,49 +1,31 @@
 #include "Writer.hpp"
+#include <set>
+#include <opencv2/opencv.hpp>
+#include "MyException.hpp"
 
-Writer::Writer(const std::string& outputFileName, int fourcc, double fps, int width, int height) :
-    m_outputFileName(outputFileName),
-    m_fourcc(fourcc),
-    m_fps(fps),
-    m_size(width, height) {}
+void Writer::write_to_file(const std::string& output_file_name, const Video& output_video) {
+    validate_file_extension(output_file_name);
 
-Writer::Writer(const std::string& outputFileName, const std::string& codec, double fps, int width, int height) :
-    m_outputFileName(outputFileName),
-    m_fps(fps),
-    m_size(width, height) {
-        m_fourcc = getFourcc(outputFileName, codec);
+    cv::VideoWriter output_video_stream(
+        output_file_name,
+        output_video.m_fourcc,
+        output_video.m_frame_rate,
+        cv::Size(output_video.m_width, output_video.m_height),
+        true
+    );
+
+    for(int i = 0; i < output_video.m_frame_count; ++i) {
+        output_video_stream << output_video.m_frames[i];
+    }
 }
 
-void Writer::writeToFile(const std::vector<cv::Mat>& videoFrames) {
-    cv::VideoWriter outputVideo(m_outputFileName, m_fourcc, m_fps, m_size, true);
+void Writer::validate_file_extension(const std::string& output_file_name) {
+    auto found = output_file_name.find_last_of('.');
+    std::string extension = output_file_name.substr(found + 1);
     
-    for(size_t i = 0; i < videoFrames.size(); ++i) {
-        outputVideo << videoFrames[i];
+    /* This list must be updated */
+    std::set<std::string> available_file_extensions {"mp4", "avi", "mkv"};
+    if(available_file_extensions.find(extension) == available_file_extensions.end()) {
+        throw MyException(extension, "is not supported file extension at this moment.");
     }
-}
-
-std::string Writer::getFileExtension(const std::string& fileName) {
-    auto found = fileName.find_last_of('.');
-    return fileName.substr(found + 1);
-}
-
-int Writer::getFourcc(const std::string& outputFileName, const std::string& codec) {
-    std::string extension = getFileExtension(outputFileName);
-    
-    std::map<std::string, std::set<std::string>> availableCodecsAndExtensions{
-        {"mp4", {"MJPG", "MJ2C", "VP80", "HEVC", "X264", "MPEG4"}},
-        {"avi", {"XviD", "ASV1", "ASV2", "FFV1", "MJPG", "HFYU", "MJ2C", "VP80", "SVQ1", "WMV1", "WMV2", "ZLIB", "MPEG4"}},
-        {"mkv", {"HEVC", "XviD", "ASV1", "ASV2", "MJ2C", "WMV1", "WMV2", "ZLIB", "MJPG", "VP80", "MPEG4"}}
-    };
-
-    auto findExtension = availableCodecsAndExtensions.find(extension);
-    if(findExtension == availableCodecsAndExtensions.end()) {
-        throw MyException(extension, "is unsupported file extension, please see ReadMe.md");
-    }
-
-    auto findCodec = availableCodecsAndExtensions[extension].find(codec);
-    if(findCodec ==  availableCodecsAndExtensions[extension].end()) {
-        throw MyException(codec, "is unsupported codec format.");
-    }
-
-    return  cv::VideoWriter::fourcc((*findCodec)[0], (*findCodec)[1], (*findCodec)[2], (*findCodec)[3]); 
 }
