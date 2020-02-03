@@ -12,12 +12,12 @@ Contact: Email [martirosyan.hrach97@gmail.com](martirosyan.hrach97@gmail.com)
 Here is a list of commands with the help of which developers can set up OpenCV
 
 To install required packages:
-  `sudo apt-get install build-essential
-  sudo apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev`
+  `sudo apt-get install build-essential`
+  `sudo apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev`
 
 Time to clone latest stable version of OpenCV and OpenCV Contribution:
-  `git clone https://github.com/opencv/opencv.git
-  git clone https://github.com/opencv/opencv_contrib.git`
+  `git clone https://github.com/opencv/opencv.git`
+ ` git clone https://github.com/opencv/opencv_contrib.git`
 
 ## Build OpenCV using CMake
 Install CMake's latest release: [Link to download page](https://cmake.org/download/)
@@ -52,3 +52,9 @@ Usually it is set in `/home/hrachm/Documents/opencv/BuildDir`.
 ### Using install.sh file:
 Open the terminal and simply run `install.sh` script. This script except building opencv library with needed modeles,
 also builds my video overyling project and will generate VideoOverlying object file.
+
+### Test ###
+After doing the steps I mentioned above, simply run `./run.sh` bash script with approrpriate video paths
+` ./runs.sh <output video direcory>/ <background video path> <moving objects video paths>(As much as you want).`
+In my case:`./run.sh /home/hrach/Documents/Results/ /home/hrach/Downloads/Results/background.mp4 /home/hrach/Downloads/Results/moving.mp4`
+I'm really sorry for meaningless video example(Anyway i think it is not too bad.) :).
