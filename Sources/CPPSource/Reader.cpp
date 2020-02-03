@@ -1,7 +1,6 @@
 #include "Reader.hpp"
-#include <experimental/filesystem>
 
-cv::VideoCapture Reader::validate_input_file(const std::string& input_file_name) {
+cv::VideoCapture Reader::validate_input_file(const std::experimental::filesystem::path& input_file_name) {
     /* Check if file exists */
     if(!std::experimental::filesystem::exists(input_file_name)) {
         throw MyException(input_file_name, " path is not found during import. Please be carefull :)");
@@ -15,7 +14,7 @@ cv::VideoCapture Reader::validate_input_file(const std::string& input_file_name)
     return videoStream;
 }
 
-Video Reader::read(const std::string& input_file_name) {
+Video Reader::read(const std::experimental::filesystem::path& input_file_name) {
     auto video_stream = validate_input_file(input_file_name);
     
     /* 

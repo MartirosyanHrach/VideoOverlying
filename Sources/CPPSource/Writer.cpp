@@ -3,7 +3,7 @@
 #include <opencv2/opencv.hpp>
 #include "MyException.hpp"
 
-void Writer::write_to_file(const std::string& output_file_name, const Video& output_video) {
+void Writer::write_to_file(const std::experimental::filesystem::path& output_file_name, const Video& output_video) {
     validate_file_extension(output_file_name);
 
     cv::VideoWriter output_video_stream(
@@ -19,13 +19,12 @@ void Writer::write_to_file(const std::string& output_file_name, const Video& out
     }
 }
 
-void Writer::validate_file_extension(const std::string& output_file_name) {
-    auto found = output_file_name.find_last_of('.');
-    std::string extension = output_file_name.substr(found + 1);
+void Writer::validate_file_extension(const std::experimental::filesystem::path& output_file_name) {
+    const auto extension = output_file_name.extension();
     
     /* This list must be updated */
-    std::set<std::string> available_file_extensions {"mp4", "avi", "mkv"};
+    const std::set<std::experimental::filesystem::path> available_file_extensions {".mp4", ".avi", ".mkv"};
     if(available_file_extensions.find(extension) == available_file_extensions.end()) {
-        throw MyException(extension, "is not supported file extension at this moment.");
+        throw MyException(extension, " is not supported file extension at this moment.");
     }
 }

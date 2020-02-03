@@ -1,7 +1,7 @@
 #ifndef VIDEO_READER
 #define VIDEO_READER
 
-#include <string>
+#include <experimental/filesystem>
 #include "Video.hpp"
 #include <opencv2/opencv.hpp>
 #include "MyException.hpp"
@@ -19,7 +19,7 @@ public:
      *  @param[in]  input_file_name - file name from which video must be read
      *  @param[out] Video           - video object, initialized with input_file_name video file.
      **/    
-    static Video read(const std::string& input_file_name);
+    static Video read(const std::experimental::filesystem::path& input_file_name);
 
 private:
     /**
@@ -27,7 +27,7 @@ private:
      *  @param[in]  input_file_name      - file name which must be validated
      *  @param[out] cv::VideoCapture    - if exception is not thrown, return cv::VideoCapture object
      **/    
-    static cv::VideoCapture validate_input_file(const std::string& input_file_name);
+    static cv::VideoCapture validate_input_file(const std::experimental::filesystem::path& input_file_name);
 };
 
 #endif // VIDEO_READER
