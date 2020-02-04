@@ -6,9 +6,12 @@
 #include "Overlayer.hpp"
 #include "Utilities.hpp"
 #include "MyException.hpp"
+#include "Timer.hpp"
 
 /* From c++ 11 you can use try out of main function, to keep the main function clean.*/ 
 int main(int argc, char** argv) try{ 
+    /* Timer class object to calculate te excecution time.*/
+    Timer timer;
     const auto cmd_args = Utilities::resolve_command_line_arguments(argc, argv);
     const auto output_video_directory(std::get<0>(cmd_args));
     const auto background_video_path(std::get<1>(cmd_args));
